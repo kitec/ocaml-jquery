@@ -120,6 +120,30 @@ class type jQuery = object
   method tableFilterApplyFilterValues : unit meth
 
 
+  (* Traversing *)
+  method andSelf : unit -> jQuery t meth
+  method children : js_string t -> jQuery t meth
+  method closest : js_string t -> jQuery t meth
+  method contents: unit -> jQuery t meth
+  method end_: unit -> jQuery t meth
+  method filter : js_string t -> jQuery t meth
+  method first: unit -> jQuery t meth
+  method is : js_string t -> jQuery t meth
+  method last: unit -> jQuery t meth
+  method next : js_string t optdef -> jQuery t meth
+  method nextAll : js_string t optdef -> jQuery t meth
+  method nextUntil : js_string t optdef -> js_string t optdef -> jQuery t meth
+  method not_ : js_string t -> jQuery t meth
+  method offsetParent: unit -> jQuery t meth
+  method parent : js_string t optdef -> jQuery t meth
+  method parents : js_string t optdef -> jQuery t meth
+  method parentsUntil : js_string t optdef -> js_string t optdef -> jQuery t meth
+  method prev : js_string t optdef -> jQuery t meth
+  method prevAll : js_string t optdef -> jQuery t meth
+  method prevUntil : js_string t optdef -> js_string t optdef -> jQuery t meth
+  method siblings : js_string t optdef -> jQuery t meth
+  method slice : int -> int optdef -> jQuery t meth
+
 (* TODO : implement the right types for these methods c.f. jQuery API
   method ajaxError
   method ajaxSend
