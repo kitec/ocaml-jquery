@@ -83,7 +83,7 @@ class type jQuery = object
   method insertBefore : (js_string t, #Dom_html.element t, jQuery t)
     Tools.Choice3.t -> jQuery t meth
   method length : int readonly_prop
-  method live : 'a Dom.Event.typ -> ('a, 'b) meth_callback -> jQuery t meth
+  method live : 'a Dom.Event.typ -> ('c, 'a -> 'b) meth_callback -> jQuery t meth
   method prepend : js_string t -> unit meth
   method prependTo: js_string t -> unit meth
   method queue : js_string t opt -> js_string t js_array t meth
