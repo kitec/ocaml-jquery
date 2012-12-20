@@ -111,6 +111,7 @@ class type jQuery = object
   method text_set : js_string t -> jQuery t meth
   method unbind : js_string t -> jQuery t meth
   method val_ : string_array t meth
+  method val_single : js_string t meth
   method val_set : js_string t -> jQuery t meth
   method width : int meth
   method width_set : int -> jQuery t meth
