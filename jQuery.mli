@@ -86,6 +86,10 @@ class type jQuery = object
   method live : 'a Dom.Event.typ -> ('c, 'a -> 'b) meth_callback -> jQuery t meth
   method prepend : js_string t -> unit meth
   method prependTo: js_string t -> unit meth
+  method prop : js_string t -> js_string t optdef meth
+  method prop_set : js_string t -> 'a -> jQuery t meth
+  method prop_properties : 'a -> jQuery t meth
+  method prop_function : js_string t -> ('a, 'b) meth_callback opt -> jQuery t meth
   method queue : js_string t opt -> js_string t js_array t meth
   method ready : ('a, 'b) meth_callback -> jQuery t meth
   method remove : unit meth
