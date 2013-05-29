@@ -223,10 +223,10 @@ let jQuery
   (selector : (js_string t,
 	       #Dom_html.element t,
 	       #Dom_html.element t js_array t,
-	       jQuery t) Tools.Choice4.t)
+	       #jQuery t) Tools.Choice4.t)
   (context_opt : (#Dom_html.element t,
 		  #Dom_html.document,
-		  jQuery t) Tools.Choice3.t opt) : jQuery t =
+		  #jQuery t) Tools.Choice3.t opt) : jQuery t =
   Unsafe.fun_call
     (Unsafe.variable "jQuery")
     [|Unsafe.inject selector; Unsafe.inject context_opt|]
