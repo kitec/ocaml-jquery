@@ -216,6 +216,8 @@ class type jQuery = object
   method wrapInner*)
 end
 
+let jQelt e = Unsafe.fun_call (Unsafe.variable "jQuery") [| Unsafe.inject e |]
+
 let jQ s = Unsafe.fun_call
   (Unsafe.variable "jQuery") [|Unsafe.inject (Js.string s)|]
 

@@ -125,6 +125,9 @@ end
 (** Easy way to call the jQuery object jQ "#foo" <=> $("#foo") **)
 val jQ : string -> jQuery t
 
+(** Easy way to call the jQuery object on a DOM elements <=> $(e) **)
+val jQelt : #Dom_html.element Js.t -> jQuery t
+
 (** Call the jQuery object i.e. "$" in jQuery **)
 val jQuery : (js_string t, #Dom_html.element t, #Dom_html.element t js_array t,
 	      #jQuery t) Tools.Choice4.t ->
