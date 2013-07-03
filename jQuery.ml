@@ -1,5 +1,5 @@
 (*
- * JQuery binding for Js_of_ocaml - 2011-2012  
+ * JQuery binding for Js_of_ocaml - 2011-2012
  * jQuery module
  *
  * 2011 Gabriel Cardoso - gcardoso.w@gmail.com
@@ -28,18 +28,18 @@ class type jQuery = object
   method add_element : #Dom_html.element t -> jQuery t meth
   method add_jquery : jQuery t -> jQuery t meth
   method addClass : js_string t -> jQuery t meth
-  method addClass_ : (int -> js_string t -> js_string t) callback 
+  method addClass_ : (int -> js_string t -> js_string t) callback
     -> jQuery t meth
   method after : (js_string t, #Dom_html.element t, jQuery t) Tools.Choice3.t
     -> jQuery t meth
-  method after_fun : 
-    (int -> (js_string t, #Dom_html.element t, jQuery t) Tools.Choice3.t) 
+  method after_fun :
+    (int -> (js_string t, #Dom_html.element t, jQuery t) Tools.Choice3.t)
     -> jQuery t meth
-  method ajaxComplete : 
+  method ajaxComplete :
     (#Dom_html.event t -> #XmlHttpRequest.xmlHttpRequest t -> 'a) callback
     -> jQuery t meth
-  method animate : Dom_html.cssStyleDeclaration t -> duration_pre opt 
-    -> easing_pre opt -> ('a, 'b) meth_callback opt -> jQuery t meth
+  method animate : Dom_html.cssStyleDeclaration t -> duration_pre opt
+    -> easing_pre opt -> (unit -> unit) callback opt -> jQuery t meth
   method append : js_string t -> jQuery t meth
   method appendTo : js_string t -> jQuery t meth
   method appendTo_jquery : jQuery t -> jQuery t meth
@@ -52,6 +52,7 @@ class type jQuery = object
   method change : ('a, 'b) meth_callback opt -> jQuery t meth
   method clearQueue : js_string t opt -> jQuery t meth
   method click : ('a, 'b) meth_callback opt -> jQuery t meth
+  method clone: bool t -> bool t -> jQuery t meth
   method css_get : js_string t -> js_string t meth
   method css : js_string t -> js_string t -> jQuery t meth
   method delay : int -> js_string t opt -> jQuery t meth
@@ -75,7 +76,7 @@ class type jQuery = object
   method hide : duration_pre opt -> easing_pre opt -> ('a, 'b) meth_callback opt
     -> jQuery t meth
   method hover : ('a, 'b) meth_callback -> ('a, 'b) meth_callback opt -> jQuery t meth
-  method html : js_string t meth 
+  method html : js_string t meth
   method html_set : js_string t -> jQuery t meth
   method insertAfter : (js_string t, #Dom_html.element t, jQuery t)
     Tools.Choice3.t -> jQuery t meth
@@ -84,11 +85,12 @@ class type jQuery = object
   method length : int readonly_prop
   method live : 'a Dom.Event.typ-> ('a, 'b) meth_callback -> jQuery t meth
   method prepend : js_string t -> unit meth
+  method prependTo: js_string t -> unit meth
   method queue : js_string t opt -> js_string t js_array t meth
   method ready : ('a, 'b) meth_callback -> jQuery t meth
   method remove : unit meth
   method removeClass : js_string t opt -> jQuery t meth
-  method removeClass_ : (int -> js_string t -> js_string t) callback 
+  method removeClass_ : (int -> js_string t -> js_string t) callback
     -> jQuery t meth
   method select : ('a, 'b) meth_callback opt -> jQuery t meth
   method serialize : unit -> js_string meth
@@ -127,7 +129,6 @@ class type jQuery = object
   method andSelf
   method change
   method children
-  method click
   method clone
   method closest
   method contents
@@ -215,19 +216,21 @@ class type jQuery = object
   method wrapInner*)
 end
 
-let jQ s = Unsafe.fun_call 
+let jQelt e = Unsafe.fun_call (Unsafe.variable "jQuery") [| Unsafe.inject e |]
+
+let jQ s = Unsafe.fun_call
   (Unsafe.variable "jQuery") [|Unsafe.inject (Js.string s)|]
 
-let jQuery 
-  (selector : (js_string t, 
-	       #Dom_html.element t, 
+let jQuery
+  (selector : (js_string t,
+	       #Dom_html.element t,
 	       #Dom_html.element t js_array t,
-	       jQuery t) Tools.Choice4.t)
-  (context_opt : (#Dom_html.element t, 
-		  #Dom_html.document, 
-		  jQuery t) Tools.Choice3.t opt) : jQuery t = 
-  Unsafe.fun_call 
-    (Unsafe.variable "jQuery") 
+	       #jQuery t) Tools.Choice4.t)
+  (context_opt : (#Dom_html.element t,
+		  #Dom_html.document,
+		  #jQuery t) Tools.Choice3.t opt) : jQuery t =
+  Unsafe.fun_call
+    (Unsafe.variable "jQuery")
     [|Unsafe.inject selector; Unsafe.inject context_opt|]
 
 let ajax : js_string t -> unit = Unsafe.variable "jQuery.ajax"
@@ -258,11 +261,11 @@ module Event = struct
   let data = Unsafe.variable "jQuery.event.data"
   let isDefaultPrevented = Unsafe.variable "jQuery.event.isDefaultPrevented"
   let preventDefault = Unsafe.variable "jQuery.event.preventDefault"
-  let isImmediatePropagationStopped = 
+  let isImmediatePropagationStopped =
     Unsafe.variable "jQuery.event.isImmediatePropagationStopped"
-  let stopImmediatePropagation = 
+  let stopImmediatePropagation =
     Unsafe.variable "jQuery.event.stopImmediatePropagation"
-  let isPropagationStopped = 
+  let isPropagationStopped =
     Unsafe.variable "jQuery.event.isPropagationStopped"
   let stopPropagation = Unsafe.variable "jQuery.event.stopPropagation"
   let namespace = Unsafe.variable "jQuery.event.namespace"
@@ -271,7 +274,7 @@ module Event = struct
   let preventDefault = Unsafe.variable "jQuery.event.preventDefault"
   let relatedTarget = Unsafe.variable "jQuery.event.relatedTarget"
   let result = Unsafe.variable "jQuery.event.result"
-  let stopImmediatePropagation = 
+  let stopImmediatePropagation =
     Unsafe.variable "jQuery.event.stopImmediatePropagation"
   let stopPropagation = Unsafe.variable "jQuery.event.stopPropagation"
   let target = Unsafe.variable "jQuery.event.target"
@@ -280,7 +283,7 @@ module Event = struct
   let which = Unsafe.variable "jQuery.event.which"
 end
 let extend = Unsafe.variable "jQuery.extend"
-module Fx = struct 
+module Fx = struct
   let interval = Unsafe.variable "jQuery.fx.interval"
   let off = Unsafe.variable "jQuery.fx.off"
 end
@@ -304,7 +307,7 @@ let merge = Unsafe.variable "jQuery.merge"
 let noConflict = Unsafe.variable "jQuery.noConflict"
 let noop = Unsafe.variable "jQuery.noop"
 let now = Unsafe.variable "jQuery.now"*)
-let param : Unsafe.any t -> bool t opt -> js_string t = 
+let param : Unsafe.any t -> bool t opt -> js_string t =
   Unsafe.variable "jQuery.param"
 (*let parseJSON = Unsafe.variable "jQuery.parseJSON"
 let parseXML = Unsafe.variable "jQuery.parseXML"
