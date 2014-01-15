@@ -51,7 +51,6 @@ class type jQuery = object
   method blur : ('a, 'b) meth_callback opt -> jQuery t meth
   method change : ('a, 'b) meth_callback opt -> jQuery t meth
   method clearQueue : js_string t opt -> jQuery t meth
-  method click : ('a, 'b) meth_callback opt -> jQuery t meth
   method clone: bool t -> bool t -> jQuery t meth
   method css_get : js_string t -> js_string t meth
   method css : js_string t -> js_string t -> jQuery t meth
@@ -69,6 +68,8 @@ class type jQuery = object
     -> jQuery t meth
   method find : jQuery t -> jQuery t meth
   method focus : ('a, 'b) meth_callback opt -> jQuery t meth
+  method get : 'a meth
+  method get_index : int -> 'a meth
   method has : js_string t -> jQuery t meth
   method hasClass : js_string t -> bool t meth
   method height : int meth
@@ -123,6 +124,8 @@ class type jQuery = object
   method width_set : int -> jQuery t meth
   method tableFilter : unit meth
   method tableFilterApplyFilterValues : unit meth
+  method wrap : js_string t -> jQuery t meth
+  method unwrap : jQuery t meth
 
   (* Traversing *)
   method andSelf : unit -> jQuery t meth
@@ -147,6 +150,16 @@ class type jQuery = object
   method prevUntil : js_string t optdef -> js_string t optdef -> jQuery t meth
   method siblings : js_string t optdef -> jQuery t meth
   method slice : int -> int optdef -> jQuery t meth
+
+  method click : ('a, 'b) meth_callback opt -> jQuery t meth
+  method dblclick : ('a, 'b) meth_callback opt -> jQuery t meth
+  method mousedown : ('a, 'b) meth_callback opt -> jQuery t meth
+  method mouseenter : ('a, 'b) meth_callback opt -> jQuery t meth
+  method mouseleave : ('a, 'b) meth_callback opt -> jQuery t meth
+  method mousemove : ('a, 'b) meth_callback opt -> jQuery t meth
+  method mouseout : ('a, 'b) meth_callback opt -> jQuery t meth
+  method mouseover : ('a, 'b) meth_callback opt -> jQuery t meth
+  method mouseup : ('a, 'b) meth_callback opt -> jQuery t meth
 end
 
 (** Easy way to call the jQuery object jQ "#foo" <=> $("#foo") **)
